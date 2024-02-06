@@ -1,6 +1,16 @@
 FROM fnndsc/ubuntu-python3:ubuntu20.04-python3.8.10
 
 # install Dependencies
+
+ADD . /python-flask
+WORKDIR /python-flask
+
+COPY requirements.txt requirements.txt
+
+RUN apt-get update && apt-get install libgl1 -y
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
+
 RUN apt-get update -y
 #RUN apt-get install calculix-ccx -y
 RUN apt-get install wget -y
@@ -37,6 +47,7 @@ RUN rm *.bz2
 # copy api scripts
 WORKDIR root/api
 COPY src /api/src
+
 RUN cp ~/CalculiX/ccx_2.17/test/beamp.inp .
 WORKDIR /api
 
